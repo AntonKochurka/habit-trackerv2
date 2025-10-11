@@ -15,7 +15,7 @@ class NavigationCubit extends Cubit<NavigationState> {
     if (isAuthenticated) {
       emit(NavigationCalendarPage());
     } else {
-      emit(NavigationAuthPage());
+      emit(NavigationLogInPage());
     }
   }
 
@@ -24,7 +24,8 @@ class NavigationCubit extends Cubit<NavigationState> {
   }
 
   void navigateSplash() => emit(NavigationSplashPage());
-  void navigateAuth() => emit(NavigationAuthPage());
+  void navigateLogIn() => emit(NavigationLogInPage());
+  void navigateSignUp() => emit(NavigationSignUpPage());
   void navigateCalendar() => emit(NavigationCalendarPage());
   void navigateDay() => emit(NavigationDayPage());
   void navigateHabit() => emit(NavigationHabitPage());

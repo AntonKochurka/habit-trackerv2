@@ -5,7 +5,9 @@ sealed class NavigationState {}
 
 final class NavigationSplashPage extends NavigationState {}
 
-final class NavigationAuthPage extends NavigationState {}
+final class NavigationLogInPage extends NavigationState {}
+
+final class NavigationSignUpPage extends NavigationState {}
 
 final class NavigationCalendarPage extends NavigationState {}
 
