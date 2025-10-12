@@ -33,3 +33,14 @@ mypy = "^1.18.2"
 pytest = "^8.4.2"
 httpx = "^0.28.1"
 
+[tool.ruff]
+exclude = [
+    "alembic/",
+    "venv/",
+    "__pycache__/",
+]
+
+[tool.black]
+exclude = '''
+/(alembic|venv|__pycache__)/
+'''
