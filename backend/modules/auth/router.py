@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from modules.auth.schemas import ObtainTokenRequest, ObtainTokenResponse
 from modules.auth.dependencies import AuthService, get_auth_service
+from modules.auth.schemas import ObtainTokenRequest, ObtainTokenResponse
 
 router = APIRouter("/auth")
 

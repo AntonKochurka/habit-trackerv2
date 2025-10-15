@@ -1,4 +1,4 @@
-from ormparams import OrmParamsFastAPI, SuffixSet, DefaultSuffixSet
+from ormparams import DefaultSuffixSet, OrmParamsFastAPI, SuffixSet
 
 
 def get_suffix_set() -> SuffixSet:

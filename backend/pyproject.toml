@@ -36,11 +36,11 @@ httpx = "^0.28.1"
 [tool.ruff]
 exclude = [
     "alembic/",
-    "venv/",
+    ".venv/",
     "__pycache__/",
 ]
 
 [tool.black]
 exclude = '''
-/(alembic|venv|__pycache__)/
+/(alembic|.venv|__pycache__)/
 '''

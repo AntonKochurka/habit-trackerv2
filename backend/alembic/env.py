@@ -6,7 +6,6 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
-
 from core.config import config as _conf
 from modules.auth.models import BlacklistedToken
 from modules.user.models import User
