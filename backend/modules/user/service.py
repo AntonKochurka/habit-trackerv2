@@ -19,11 +19,11 @@ class UserService:
         user = User(email=body.email, hashed_password=get_password_hash(body.password))
         return await self.user_repo.create(user)
 
-    async def check_password(self, email: str, password: str) -> bool:
+    async def check_password(self, email: str, password: str) -> User:
         user = await self.user_repo.get_user_by_email(email)
         if not user or not verify_password(password, user.hashed_password):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Wrong email or password.",
             )
-        return True
+        return user
