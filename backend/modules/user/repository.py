@@ -1,6 +1,7 @@
+from sqlalchemy import select
+
 from core.database import AsyncSession
 from modules.user.models import User
-from sqlalchemy import select
 
 
 class UserRepository:

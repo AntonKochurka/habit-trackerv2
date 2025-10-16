@@ -1,5 +1,6 @@
-from core.database import AsyncSession, get_async_session
 from fastapi import Depends
+
+from core.database import AsyncSession, get_async_session
 from modules.user.repository import UserRepository
 from modules.user.service import UserService
 

@@ -1,8 +1,9 @@
 from contextlib import asynccontextmanager
 
+from fastapi import FastAPI
+
 from core.database import init_all
 from core.dependencies import ormparams, suffix_set
-from fastapi import FastAPI
 from modules.auth.router import router as auth_router
 from modules.user.router import router as user_router
 

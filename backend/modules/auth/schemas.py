@@ -1,8 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class ObtainTokenRequest(BaseModel):
-    email: str
+    email: EmailStr
     password: str
 
 

@@ -1,5 +1,6 @@
-from core.mixins import Base, BaseMixin
 from sqlalchemy import Column, String
+
+from core.mixins import Base, BaseMixin
 
 
 class BlacklistedToken(Base, BaseMixin):
