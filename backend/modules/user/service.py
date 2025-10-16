@@ -1,6 +1,5 @@
-from fastapi import HTTPException, status
-
 from core.security import get_password_hash, verify_password
+from fastapi import HTTPException, status
 from modules.user.models import User
 from modules.user.repository import UserRepository
 from modules.user.schemas import UserCreateRequest

@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
-
 from modules.auth.dependencies import AuthService, get_auth_service
 from modules.auth.schemas import ObtainTokenRequest, ObtainTokenResponse
 
-router = APIRouter("/auth")
+router = APIRouter(prefix="/auth")
 
 
 @router.post("/obtain", response_model=ObtainTokenResponse)
@@ -15,12 +14,7 @@ async def obtain_tokens(
     if user:
         access, refresh, exp = auth_service.obtain_pair(user.id)
 
-        response = JSONResponse(
-            ObtainTokenRequest(
-                access=access,
-                refresh=refresh
-            )
-        )
+        response = JSONResponse(ObtainTokenRequest(access=access, refresh=refresh))
 
         response.set_cookie("refresh", refresh, expires=exp)
 

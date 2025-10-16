@@ -1,12 +1,14 @@
 from core.database import AsyncSession
-
 from modules.auth.models import BlacklistedToken
+
 
 class AuthRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def create_blacklisted_token(self, blacklisted_token: BlacklistedToken) -> BlacklistedToken:
+    async def create_blacklisted_token(
+        self, blacklisted_token: BlacklistedToken
+    ) -> BlacklistedToken:
         self.session.add(token)
         await self.session.commit()
         await self.session.refresh(blacklisted_token)
