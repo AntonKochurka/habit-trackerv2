@@ -6,7 +6,7 @@ from modules.user.schemas import UserCreateRequest, UserReadResponse
 router = APIRouter(prefix="/users")
 
 
-@router.post("/", response_model=UserReadResponse)
+@router.post("", response_model=UserReadResponse)
 async def create_user(
     body: UserCreateRequest,
     user_service: UserService = Depends(get_user_service),

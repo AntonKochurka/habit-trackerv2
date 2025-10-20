@@ -13,7 +13,7 @@ class ApiException implements Exception {
     }
     if (error.type == DioExceptionType.badResponse) {
       final status = error.response?.statusCode;
-      final msg = error.response?.data?['message'] ?? 'Unexpected server error';
+      final msg = error.response?.data?['detail'] ?? 'Unexpected server error';
       return ApiException(msg, statusCode: status);
     }
     return ApiException(error.message ?? 'Unknown network error');

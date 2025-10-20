@@ -16,3 +16,4 @@ class AuthSignUpSubmitted extends AuthEvent {
 
   AuthSignUpSubmitted({required this.email, required this.password});
 }
+
