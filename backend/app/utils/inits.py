@@ -1,7 +1,8 @@
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
-from app.core.db import engine, Base
+from fastapi import FastAPI
+
+from app.core.db import Base, engine
 from app.modules import set_router
 
 
