@@ -1,1 +1,1 @@
-from . import crud, models, repo, router, schemas
+from . import crud, dependencies, models, repo, router, schemas
