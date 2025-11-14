@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic import BaseModel, EmailStr
 
 
@@ -8,6 +10,11 @@ class ObtainTokensRequest(BaseModel):
     password: str
 
 
-class ObtainTokensResponse(BaseModel):
+class TokenPairResponse(BaseModel):
     access: str
     refresh: str
+
+
+class BlacklistTokensRequest(BaseModel):
+    access: str | None
+    refresh: bool = False

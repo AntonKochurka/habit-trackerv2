@@ -43,20 +43,28 @@ class UserRepository:
         return UserPublic.from_orm(user)
 
     async def find_user_by_id(
-        self, user_id: str, strict: bool = False
+        self, user_id: str, strict: bool = True, orm: bool = False
     ) -> UserPublic | None:
         user = await get_user_by_id(self.session, user_id)
         if strict and user is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")
-        return UserPublic.from_orm(user) if user else None
+        return UserPublic.from_orm(user) if orm else user
 
     async def find_user_by_username(
-        self, username: str, strict: bool = False
+        self, username: str, strict: bool = True, orm: bool = False
     ) -> UserPublic | None:
         user = await get_user_by_username(self.session, username)
         if strict and user is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")
-        return UserPublic.from_orm(user) if user else None
+        return UserPublic.from_orm(user) if orm else user
+
+    async def find_user_by_email(
+        self, email: str, strict: bool = True, orm: bool = False
+    ) -> UserPublic | User | None:
+        user = await get_user_by_email(self.session, email)
+        if strict and user is None:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")
+        return UserPublic.from_orm(user) if orm else user
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return pwd_context.verify(plain_password, hashed_password)
