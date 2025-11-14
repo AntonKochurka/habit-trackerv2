@@ -1,5 +1,4 @@
 from typing import Optional
-
 from fastapi import Depends, HTTPException, status
 from fastapi.security import APIKeyCookie, HTTPAuthorizationCredentials, HTTPBearer
 
@@ -17,31 +16,29 @@ async def get_auth_repository(
 
 
 access_token = HTTPBearer(scheme_name="access_token", auto_error=False)
-refresh_token = APIKeyCookie(name="refresh", scheme_name="refresh_token")
+refresh_token_cookie = APIKeyCookie(name="refresh", scheme_name="refresh_token")
 
 
 async def get_optional_access_token(
-    access: Optional[HTTPAuthorizationCredentials],
+    access: Optional[HTTPAuthorizationCredentials] = Depends(access_token),
 ) -> Optional[str]:
-    if not access or not access.credentials:
-        return None
-    return access.credentials
+    return access.credentials if access and access.credentials else None
 
 
 async def get_access_token(
-    access_token: Optional[str] = Depends(get_optional_access_token),
+    access: Optional[str] = Depends(get_optional_access_token),
 ) -> str:
-    if not access_token:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
-    return access_token
+    if not access:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Unauthorized")
+    return access
 
 
 async def get_refresh_token(
-    refresh_token: Optional[str] = Depends(refresh_token),
+    refresh: Optional[str] = Depends(refresh_token_cookie),
 ) -> str:
-    if not refresh_token:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
-    return refresh_token
+    if not refresh:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Unauthorized")
+    return refresh
 
 
 async def get_optional_user(
@@ -50,16 +47,17 @@ async def get_optional_user(
 ) -> Optional[User]:
     if not access:
         return None
-    try:
-        user_id = decode_token(access)["sub"]
-        return await repo.user_repo.find_user_by_id(user_id=user_id)
-    except HTTPException as e:
-        if e.status_code in (401, 403):
-            return None
-        raise
+
+    decoded = decode_token(access)
+    await repo.check_blacklisted_jti(decoded["jti"])
+
+    user_id = int(decoded["sub"])
+    return await repo.user_repo.find_user_by_id(user_id)
 
 
-async def get_current_user(user: Optional[User] = Depends(get_optional_user)) -> User:
+async def get_current_user(
+    user: Optional[User] = Depends(get_optional_user)
+) -> User:
     if user is None:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Unauthorized")
     return user

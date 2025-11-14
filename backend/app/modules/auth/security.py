@@ -44,7 +44,9 @@ def create_refresh_token(*, user_id: str, device_id: Optional[str] = None) -> st
 
 def decode_token(token: str):
     try:
-        return jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
+        return jwt.decode(
+            token, settings.SECRET_KEY, algorithms=[settings.JWT_ALGORITHM]
+        )
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

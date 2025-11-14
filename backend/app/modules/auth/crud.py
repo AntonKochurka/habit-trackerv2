@@ -1,14 +1,12 @@
 from sqlalchemy.future import select
-
 from app.core.db import AsyncSession
 from app.modules.auth.models import BlacklistedToken
 
 
-async def blacklist_token(session: AsyncSession, blacklisted_token: BlacklistedToken):
-    session.add(blacklist_token)
+async def add_blacklisted_token(session: AsyncSession, token: BlacklistedToken):
+    session.add(token)
     await session.commit()
-    await session.refresh(user)
-    return user
+    return token
 
 
 async def is_token_blacklisted(session: AsyncSession, jti: str) -> bool:
