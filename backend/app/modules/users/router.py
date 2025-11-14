@@ -14,7 +14,7 @@ async def register_user(user_in: UserCreate, session=Depends(get_session)):
 
 
 @router.get("/{user_id}", response_model=UserPublic)
-async def get_user_by_id(user_id: str, session=Depends(get_async_session)):
+async def get_user_by_id(user_id: int, session=Depends(get_session)):
     repo = UserRepository(session)
     user = await repo.find_user_by_id(user_id)
     if not user:

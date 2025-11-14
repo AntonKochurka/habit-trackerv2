@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class UserBase(BaseModel):
@@ -21,17 +21,15 @@ class UserUpdate(BaseModel):
 
 
 class UserInDB(UserBase):
-    id: str
+    id: int
     is_active: bool
     is_superuser: bool
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserPublic(UserBase):
-    id: str
+    id: int
     is_active: bool
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

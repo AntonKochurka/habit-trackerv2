@@ -2,6 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Integer, func
 from sqlalchemy.inspection import inspect
+from sqlalchemy.orm import declarative_mixin
 
 
 @declarative_mixin
