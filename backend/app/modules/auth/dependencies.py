@@ -55,9 +55,7 @@ async def get_optional_user(
     return await repo.user_repo.find_user_by_id(user_id)
 
 
-async def get_current_user(
-    user: Optional[User] = Depends(get_optional_user)
-) -> User:
+async def get_current_user(user: Optional[User] = Depends(get_optional_user)) -> User:
     if user is None:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Unauthorized")
     return user

@@ -20,8 +20,7 @@ class AuthRepository:
     async def obtain_tokens(self, body: ObtainTokensRequest) -> TokenPairResponse:
         if (not body.username and not body.email) or not body.password:
             raise HTTPException(
-                status.HTTP_400_BAD_REQUEST,
-                "Provide correct credentials."
+                status.HTTP_400_BAD_REQUEST, "Provide correct credentials."
             )
 
         if body.username:
@@ -63,7 +62,4 @@ class AuthRepository:
     async def check_blacklisted_jti(self, jti: str):
         is_blacklisted = await crud.is_token_blacklisted(self.session, jti)
         if is_blacklisted:
-            raise HTTPException(
-                status.HTTP_403_FORBIDDEN,
-                "Token is blacklisted."
-            )
+            raise HTTPException(status.HTTP_403_FORBIDDEN, "Token is blacklisted.")
