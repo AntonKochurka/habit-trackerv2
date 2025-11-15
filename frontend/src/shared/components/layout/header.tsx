@@ -18,10 +18,10 @@ export function Header() {
       
       <nav className="flex gap-2 items-center">
         <Link 
-          to="/features" 
+          to="/home" 
           className="text-sm font-medium px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
         >
-          Features
+          Home
         </Link>
         <Link 
           to="/pricing" 

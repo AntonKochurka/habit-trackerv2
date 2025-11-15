@@ -5,11 +5,11 @@ from pydantic import BaseModel, ConfigDict, EmailStr
 
 class UserBase(BaseModel):
     username: str
-    email: EmailStr
 
 
 class UserCreate(UserBase):
     password: str
+    email: EmailStr
 
 
 class UserUpdate(BaseModel):
