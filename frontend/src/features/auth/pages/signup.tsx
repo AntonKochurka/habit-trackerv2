@@ -1,6 +1,6 @@
 import SignUpForm from "../components/signup_form";
 
-export default function SignInPage() {
+export default function SignUpPage() {
   const facts = [
     "It takes 66 days on average to form a new habit",
     "People who track habits are 3x more likely to achieve goals",
