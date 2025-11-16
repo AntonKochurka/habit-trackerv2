@@ -31,8 +31,8 @@ class AuthRepository:
         if not self.user_repo.verify_password(body.password, user.password):
             raise HTTPException(status.HTTP_403_FORBIDDEN, "Incorrect password.")
 
-        access = create_access_token(user.id)
-        refresh = create_refresh_token(user.id)
+        access = create_access_token(user_id=user.id)
+        refresh = create_refresh_token(user_id=user.id)
 
         return TokenPairResponse(access=access, refresh=refresh)
 
@@ -45,8 +45,8 @@ class AuthRepository:
 
         await self.blacklist_tokens(access, refresh)
 
-        new_access = create_access_token(user.id)
-        new_refresh = create_refresh_token(user.id)
+        new_access = create_access_token(user_id=user.id)
+        new_refresh = create_refresh_token(user_id=user.id)
 
         return TokenPairResponse(access=new_access, refresh=new_refresh)
 

@@ -1,3 +1,4 @@
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
@@ -15,9 +16,17 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_SECONDS: int = 60 * 60 * 24 * 7
     PER_PAGE: int = 5
 
+    ORIGINS: str
+
     @property
     def DB_URL(self):
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
+    @property
+    def cors_origins(self) -> list[str]:
+        if isinstance(self.ORIGINS, str):
+            return [origin.strip() for origin in self.ORIGINS.split(",")]
+
 
     model_config = {"extra": "ignore", "env_file": "../.env"}
 

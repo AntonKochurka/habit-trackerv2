@@ -7,6 +7,7 @@ interface AuthState {
     user: UserModel | null;
 
     setAuth: (token: string, user: UserModel) => void;
+    setAuthField: <K extends keyof AuthState>(key: K, value: AuthState[K]) => void;
     clearAuth: () => void;
 }
 
@@ -21,6 +22,12 @@ export const useAuthStore = create<AuthState>((set) => ({
             isAuth: true,
             user,
         }),
+
+    setAuthField: (key, value) =>
+        set((state) => ({
+            ...state,
+            [key]: value
+        })),
 
     clearAuth: () =>
         set({

@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignInSchema, type SignInValues, type AuthMode } from "../types";
+import { SignInSchema, type SignInValues, type AuthMode, type SignInRequest } from "../types";
 import BaseInput from "@/shared/components/forms/base_input";
 import SubmitButton from "@/shared/components/forms/submit_button";
 import { Mail, User } from "lucide-react";
 import Tooltip from "@/shared/components/tooltip";
+import { useSignInMutation } from "../api";
 
 export default function SignInForm() {
     const [authMode, setAuthMode] = useState<AuthMode>("username");
-    
+    const signInMutation = useSignInMutation();
+
     const {
         register,
         handleSubmit,
@@ -29,10 +31,13 @@ export default function SignInForm() {
     };
     
     const onSubmit = async (data: SignInValues) => {
-        console.log(data.mode)
-        const mode: AuthMode = authMode;
-        console.log("data", {[mode]: data.credential, password: data.password});
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        const payload = {
+            username: authMode === "username" ? data.credential : null,
+            email: authMode === "email" ? data.credential : null,
+            password: data.password
+        } as SignInRequest;
+
+        await signInMutation.mutateAsync(payload);
     };
     
     return (

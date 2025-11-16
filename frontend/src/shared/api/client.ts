@@ -7,7 +7,8 @@ import { normalizeApiError } from "./errors";
 export const api = axios.create({
     baseURL: env.API_URL,
     timeout: 10000,
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true
 });
 
 api.interceptors.request.use(
@@ -28,19 +29,16 @@ api.interceptors.response.use(
         const normalized = normalizeApiError(error);
 
         const status = normalized.status;
-        const message = normalized.message;
-
+        
         if (status === 401) {
             auth.clearAuth();
             toast.addToast("Session expired. Please login again.", "error");
         } else if (status && status >= 400 && status < 500) {
-            toast.addToast(message, "error");
         } else if (status === null) {
-            toast.addToast("Network error. Check your connection.", "error");
         } else {
             toast.addToast("Server error. Try again later.", "error");
         }
 
-        return Promise.reject(normalized);
+        return Promise.reject(error);
     }
 );
