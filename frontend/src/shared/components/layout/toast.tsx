@@ -1,5 +1,5 @@
 import { type ReactNode, useState, useEffect } from "react";
-import { useToastStore } from "@/core/store/toast.store";
+import { useToastStore } from "@/core/store";
 import { CheckCircle, XCircle, AlertTriangle, Info, X } from "lucide-react";
 
 interface ToastProviderProps {
