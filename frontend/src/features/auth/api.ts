@@ -10,7 +10,7 @@ export async function signIn(data: SignInRequest) {
 }
 
 export async function fetchCurrentUser(accessToken: string) {
-    const userRes = await api.get("/users/me", {
+    const userRes = await api.get("/auth/me", {
         headers: { Authorization: `Bearer ${accessToken}` }
     });
     return userRes.data as UserModel;

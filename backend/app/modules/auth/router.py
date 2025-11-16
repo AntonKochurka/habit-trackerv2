@@ -7,8 +7,10 @@ from app.modules.auth.dependencies import (
     get_auth_repository,
     get_access_token,
     get_refresh_token,
+    get_current_user
 )
 from app.modules.auth.schemas import ObtainTokensRequest, TokenPairResponse
+from app.modules.users.schemas import UserPublic
 
 router = APIRouter(prefix="/auth")
 
@@ -56,3 +58,7 @@ async def blacklist_tokens(
 
     response.delete_cookie("refresh")
     return response
+
+@router.get("/me", response_model=UserPublic)
+async def get_me(user = Depends(get_current_user)):
+    return UserPublic.from_orm(user)

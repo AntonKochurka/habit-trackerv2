@@ -7,10 +7,12 @@ import SubmitButton from "@/shared/components/forms/submit_button";
 import { Mail, User } from "lucide-react";
 import Tooltip from "@/shared/components/tooltip";
 import { useSignInMutation } from "../api";
+import { useNavigate } from "react-router-dom";
 
 export default function SignInForm() {
     const [authMode, setAuthMode] = useState<AuthMode>("username");
     const signInMutation = useSignInMutation();
+    const navigate = useNavigate();
 
     const {
         register,
@@ -37,7 +39,11 @@ export default function SignInForm() {
             password: data.password
         } as SignInRequest;
 
-        await signInMutation.mutateAsync(payload);
+        await signInMutation.mutateAsync(payload, {
+            onSuccess: () => {
+                navigate("/home", { replace: true });
+            }
+        });
     };
     
     return (

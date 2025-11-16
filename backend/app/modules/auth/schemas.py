@@ -1,11 +1,11 @@
 from typing import Literal
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, model_validator
 
 
 class ObtainTokensRequest(BaseModel):
-    username: str | None
-    email: EmailStr | None
+    username: str | None = None
+    email: EmailStr | None = None
 
     password: str
 

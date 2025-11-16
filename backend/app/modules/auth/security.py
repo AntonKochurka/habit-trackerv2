@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import HTTPException, status
@@ -9,35 +9,33 @@ from app.core.config import settings
 
 
 def _now_ts() -> int:
-    return int(datetime.utcnow().timestamp())
+    return int(datetime.now(tz=timezone.utc).timestamp())
 
 
-def create_access_token(*, user_id: str, device_id: Optional[str] = None) -> str:
+def create_access_token(*, user_id: str | int) -> str:
     iat = _now_ts()
     exp = iat + settings.ACCESS_TOKEN_EXPIRE_SECONDS
     jti = str(uuid.uuid4())
 
     payload = {
-        "sub": user_id,
+        "sub": str(user_id),
         "iat": iat,
         "exp": exp,
         "jti": jti,
-        "device_id": device_id or "",
     }
     return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
 
 
-def create_refresh_token(*, user_id: str, device_id: Optional[str] = None) -> str:
+def create_refresh_token(*, user_id: str | int) -> str:
     iat = _now_ts()
     exp = iat + settings.REFRESH_TOKEN_EXPIRE_SECONDS
     jti = str(uuid.uuid4())
 
     payload = {
-        "sub": user_id,
+        "sub": str(user_id),
         "iat": iat,
         "exp": exp,
         "jti": jti,
-        "device_id": device_id or "",
     }
     return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
 
@@ -47,7 +45,8 @@ def decode_token(token: str):
         return jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.JWT_ALGORITHM]
         )
-    except JWTError:
+    except JWTError as e:
+        print(e)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token",

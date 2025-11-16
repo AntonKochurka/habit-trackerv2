@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import { ZodError } from "zod";
 
 export interface NormalizedError {
     status: number | null;
@@ -6,34 +7,32 @@ export interface NormalizedError {
     details: any;
 }
 
-export function normalizeApiError(error: AxiosError): NormalizedError {
-    if (!error.response) {
+export function normalizeApiError(error: unknown): NormalizedError {
+    if (error instanceof ZodError) {
         return {
-            status: null,
-            message: "Network error",
-            details: null
+            status: 422,
+            message: "Validation failed",
+            details: error.issues.map(e => ({ field: e.path.join("."), message: e.message }))
         };
     }
 
-    const status = error.response.status;
+    if ((error as AxiosError)?.isAxiosError) {
+        const axiosError = error as AxiosError;
+        if (!axiosError.response) {
+            return { status: null, message: "Network error", details: null };
+        }
 
-    const data = error.response.data as any;
+        const data = axiosError.response.data as any;
+        return {
+            status: axiosError.response.status,
+            message: data?.message || data?.detail || axiosError.message || "Unknown error",
+            details: data?.details || data?.errors || null
+        };
+    }
 
-    const message =
-        data?.message ||
-        data?.detail ||
-        data?.error ||
-        error.message ||
-        "Unknown error";
+    if (error instanceof Error) {
+        return { status: null, message: error.message, details: null };
+    }
 
-    const details =
-        data?.details ||
-        data?.errors ||
-        null;
-
-    return {
-        status,
-        message,
-        details
-    };
+    return { status: null, message: "Unknown error", details: JSON.stringify(error) };
 }

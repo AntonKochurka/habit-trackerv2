@@ -3,6 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SignUpSchema, type SignUpValues } from "../types"
 import BaseInput from "@/shared/components/forms/base_input";
 import SubmitButton from "@/shared/components/forms/submit_button";
+import { useNavigate } from "react-router-dom";
+import { useSignUpMutation } from "../api";
 
 export default function SignUpForm() {
     const {
@@ -13,10 +15,20 @@ export default function SignUpForm() {
         resolver: zodResolver(SignUpSchema as any) as any
     })
     
+    const signUpMutation = useSignUpMutation();
+    const navigate = useNavigate();
+
     const onSubmit = async (data: SignUpValues) => {
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        console.log(data);
-    }
+        
+        const {confirm_password, ...payload} = data;
+        console.log(data, confirm_password, payload);
+
+        await signUpMutation.mutateAsync(payload, {
+            onSuccess: () => {
+                navigate("/home", { replace: true });
+            }
+        });
+    };
     
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
