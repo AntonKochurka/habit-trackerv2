@@ -43,20 +43,18 @@ class AuthRepository:
         user_id = int(decoded["sub"])
         user = await self.user_repo.find_user_by_id(user_id)
 
-        await self.blacklist_tokens(access, refresh)
-
         new_access = create_access_token(user_id=user.id)
         new_refresh = create_refresh_token(user_id=user.id)
 
         return TokenPairResponse(access=new_access, refresh=new_refresh)
 
-    async def blacklist_tokens(self, access: str | None, refresh: str | None):
-        for token in (access, refresh):
+    async def blacklist_tokens(self, access: str | None = None, refresh: str | None = None):
+        for token, ttype in ((access, "access"), (refresh, "refresh")):
             if token:
                 decoded = decode_token(token)
                 jti = decoded["jti"]
 
-                entity = BlacklistedToken(jti=jti)
+                entity = BlacklistedToken(jti=jti, token_type=ttype)
                 await crud.add_blacklisted_token(self.session, entity)
 
     async def check_blacklisted_jti(self, jti: str):

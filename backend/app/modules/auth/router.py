@@ -23,7 +23,8 @@ def set_refresh_cookie(tokens: TokenPairResponse) -> JSONResponse:
         httponly=True,
         max_age=settings.REFRESH_TOKEN_EXPIRE_SECONDS,
         expires=settings.REFRESH_TOKEN_EXPIRE_SECONDS,
-        secure=True,
+        secure=False,
+        # secure=True,
         samesite="lax",
     )
     return response
@@ -44,6 +45,8 @@ async def refresh_tokens(
     repo: AuthRepository = Depends(get_auth_repository),
 ):
     tokens = await repo.refresh_tokens(refresh)
+    await repo.blacklist_tokens(refresh=refresh)
+
     return set_refresh_cookie(tokens)
 
 
@@ -62,3 +65,7 @@ async def blacklist_tokens(
 @router.get("/me", response_model=UserPublic)
 async def get_me(user = Depends(get_current_user)):
     return UserPublic.from_orm(user)
+
+@router.get("/healt")
+async def healt(user = Depends(get_current_user)):
+    return {"status": "Ok"}

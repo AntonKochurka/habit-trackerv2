@@ -1,10 +1,13 @@
-import type { UserModel } from "@/shared/types/in_db";
 import { create } from "zustand";
+import type { UserModel } from "@/shared/types/in_db";
 
 interface AuthState {
     access: string | null;
     isAuth: boolean;
     user: UserModel | null;
+
+    authChecked: boolean;
+    isAuthLoading: boolean;
 
     setAuth: (token: string, user: UserModel) => void;
     setAuthField: <K extends keyof AuthState>(key: K, value: AuthState[K]) => void;
@@ -15,6 +18,9 @@ export const useAuthStore = create<AuthState>((set) => ({
     access: null,
     isAuth: false,
     user: null,
+
+    authChecked: false,
+    isAuthLoading: false,
 
     setAuth: (token, user) =>
         set({
