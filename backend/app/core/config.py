@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str
 
     JWT_ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_SECONDS: int = 5 * 60
+    ACCESS_TOKEN_EXPIRE_SECONDS: int = 5
     REFRESH_TOKEN_EXPIRE_SECONDS: int = 60 * 60 * 24 * 7
     PER_PAGE: int = 5
 

@@ -37,7 +37,7 @@ class AuthRepository:
         return TokenPairResponse(access=access, refresh=refresh)
 
     async def refresh_tokens(self, refresh: str, access: str | None = None):
-        decoded = decode_token(refresh)
+        decoded = decode_token(refresh, ttype="refresh")
         await self.check_blacklisted_jti(decoded["jti"])
 
         user_id = int(decoded["sub"])
@@ -51,7 +51,7 @@ class AuthRepository:
     async def blacklist_tokens(self, access: str | None = None, refresh: str | None = None):
         for token, ttype in ((access, "access"), (refresh, "refresh")):
             if token:
-                decoded = decode_token(token)
+                decoded = decode_token(token, ttype=ttype)
                 jti = decoded["jti"]
 
                 entity = BlacklistedToken(jti=jti, token_type=ttype)

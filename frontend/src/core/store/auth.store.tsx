@@ -8,6 +8,7 @@ interface AuthState {
 
     authChecked: boolean;
     isAuthLoading: boolean;
+    isRefreshing: boolean;
 
     setAuth: (token: string, user: UserModel) => void;
     setAuthField: <K extends keyof AuthState>(key: K, value: AuthState[K]) => void;
@@ -21,6 +22,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     authChecked: false,
     isAuthLoading: false,
+    isRefreshing: true,
 
     setAuth: (token, user) =>
         set({
@@ -40,5 +42,8 @@ export const useAuthStore = create<AuthState>((set) => ({
             access: null,
             isAuth: false,
             user: null,
+            isAuthLoading: false,
+            authChecked: false,
+            isRefreshing: false
         }),
 }));
