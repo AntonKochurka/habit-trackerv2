@@ -6,13 +6,11 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
-
-from app.modules.users.models import User
-from app.modules.auth.models import BlacklistedToken
-from app.modules.habits.models import Habit
-from app.modules.entries.models import HabitEntry
-
 from app.core.config import settings
+from app.modules.auth.models import BlacklistedToken
+from app.modules.entries.models import HabitEntry
+from app.modules.habits.models import Habit
+from app.modules.users.models import User
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

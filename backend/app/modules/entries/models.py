@@ -1,11 +1,4 @@
-from sqlalchemy import (
-    JSON,
-    Boolean,
-    Column,
-    Date,
-    ForeignKey,
-    Integer,
-)
+from sqlalchemy import JSON, Boolean, Column, Date, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
 from app.core.db import Base, BaseMixin

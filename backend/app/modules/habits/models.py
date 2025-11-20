@@ -1,13 +1,6 @@
 import enum
 
-from sqlalchemy import (
-    JSON,
-    Column,
-    Enum,
-    Integer,
-    String,
-    Text,
-)
+from sqlalchemy import JSON, Column, Enum, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from app.core.db import Base, BaseMixin
