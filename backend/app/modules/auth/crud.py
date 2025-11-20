@@ -1,4 +1,5 @@
 from sqlalchemy.future import select
+
 from app.core.db import AsyncSession
 from app.modules.auth.models import BlacklistedToken
 

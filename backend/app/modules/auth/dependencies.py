@@ -17,7 +17,9 @@ async def get_auth_repository(
 
 
 access_token = HTTPBearer(scheme_name="access_token", auto_error=False)
-refresh_token_cookie = APIKeyCookie(name="refresh", scheme_name="refresh_token", auto_error=False)
+refresh_token_cookie = APIKeyCookie(
+    name="refresh", scheme_name="refresh_token", auto_error=False
+)
 
 
 async def get_optional_access_token(

@@ -4,10 +4,10 @@ from fastapi.responses import JSONResponse
 from app.core.config import settings
 from app.modules.auth.dependencies import (
     AuthRepository,
-    get_auth_repository,
     get_access_token,
+    get_auth_repository,
+    get_current_user,
     get_refresh_token,
-    get_current_user
 )
 from app.modules.auth.schemas import ObtainTokensRequest, TokenPairResponse
 from app.modules.users.schemas import UserPublic
@@ -62,10 +62,12 @@ async def blacklist_tokens(
     response.delete_cookie("refresh")
     return response
 
+
 @router.get("/me", response_model=UserPublic)
-async def get_me(user = Depends(get_current_user)):
+async def get_me(user=Depends(get_current_user)):
     return UserPublic.from_orm(user)
 
+
 @router.get("/healt")
-async def healt(user = Depends(get_current_user)):
+async def healt(user=Depends(get_current_user)):
     return {"status": "Ok"}

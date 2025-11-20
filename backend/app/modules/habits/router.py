@@ -1,3 +1,3 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter
 
 router = APIRouter(prefix="/habits")

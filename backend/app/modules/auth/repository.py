@@ -1,15 +1,15 @@
 from fastapi import HTTPException, status
 
 from app.core.db import AsyncSession
+from app.modules.auth import crud
+from app.modules.auth.models import BlacklistedToken
 from app.modules.auth.schemas import ObtainTokensRequest, TokenPairResponse
 from app.modules.auth.security import (
     create_access_token,
     create_refresh_token,
     decode_token,
 )
-from app.modules.auth.models import BlacklistedToken
 from app.modules.users.repository import UserRepository
-from app.modules.auth import crud
 
 
 class AuthRepository:
@@ -48,7 +48,9 @@ class AuthRepository:
 
         return TokenPairResponse(access=new_access, refresh=new_refresh)
 
-    async def blacklist_tokens(self, access: str | None = None, refresh: str | None = None):
+    async def blacklist_tokens(
+        self, access: str | None = None, refresh: str | None = None
+    ):
         for token, ttype in ((access, "access"), (refresh, "refresh")):
             if token:
                 decoded = decode_token(token, ttype=ttype)

@@ -27,7 +27,6 @@ class Settings(BaseSettings):
         if isinstance(self.ORIGINS, str):
             return [origin.strip() for origin in self.ORIGINS.split(",")]
 
-
     model_config = {"extra": "ignore", "env_file": "../.env"}
 
 
