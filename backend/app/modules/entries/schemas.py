@@ -7,26 +7,26 @@ from pydantic import BaseModel, ConfigDict, Field
 class EntryMetadata(BaseModel): ...
 
 
-class BaseHabitEntry(BaseModel):
+class BaseEntry(BaseModel):
     habit_id: int
     date: datetime
 
     entry_metadata: EntryMetadata
 
 
-class HabitEntryCreate(BaseHabitEntry):
+class EntryCreate(BaseEntry):
     progress_value: int = Field(default=0)
     completed: bool = Field(default=False)
 
 
-class HabitEntryUpdate(BaseModel):
+class EntryUpdate(BaseModel):
     progress_value: Optional[int] = None
     completed: Optional[bool] = None
 
     entry_metadata: Optional[EntryMetadata] = None
 
 
-class HabitEntryPublic(BaseHabitEntry):
+class EntryPublic(BaseEntry):
     id: int
 
     progress_value: int = Field(default=0)

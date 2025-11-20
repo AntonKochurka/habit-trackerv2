@@ -4,7 +4,7 @@ from app.core.db import AsyncSession
 from app.modules.entries.models import HabitEntry
 
 
-async def create_habit_entry(
+async def create_entry(
     session: AsyncSession, habit_entry: HabitEntry
 ) -> HabitEntry:
     session.add(habit_entry)
@@ -14,7 +14,7 @@ async def create_habit_entry(
     return habit_entry
 
 
-async def get_habit_entry_by_id(
+async def get_entry_by_id(
     session: AsyncSession, habit_entry_id: str
 ) -> HabitEntry | None:
     result = await session.execute(
