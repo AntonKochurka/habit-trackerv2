@@ -7,7 +7,15 @@ router = APIRouter(prefix="/habits")
 
 
 @router.post("/", response_model=HabitPublic)
-async def habit_create(
+async def habit_create_route(
     body: HabitCreate, repo: HabitRepository = Depends(get_habit_repository)
 ):
-    return
+    return await repo.create_habit(body)
+
+
+@router.get("/{habit_id}", response_model=HabitPublic)
+async def get_habit_by_id_route(
+    habit_id: int,
+    repo: HabitRepository = Depends(get_habit_repository)
+):
+    return await repo.find_habit_by_id(habit_id, orm=True)

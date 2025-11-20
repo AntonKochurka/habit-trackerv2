@@ -19,14 +19,14 @@ class HabitEntryCreate(BaseHabitEntry):
     completed: bool = Field(default=False)
 
 
-class HabitUpdate(BaseModel):
+class HabitEntryUpdate(BaseModel):
     progress_value: Optional[int] = None
     completed: Optional[bool] = None
 
     entry_metadata: Optional[EntryMetadata] = None
 
 
-class HabitPublic(BaseHabitEntry):
+class HabitEntryPublic(BaseHabitEntry):
     id: int
 
     progress_value: int = Field(default=0)

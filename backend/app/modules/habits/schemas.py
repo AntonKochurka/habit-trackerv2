@@ -1,7 +1,9 @@
 from datetime import datetime
-from typing import Literal, Optional
+from typing import Literal, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
+
+LHabitTypes = Literal["default", "timer", "counter"]
 
 
 class HabitSettings(BaseModel): ...
@@ -11,7 +13,7 @@ class BaseHabit(BaseModel):
     title: str
     description: str
 
-    type: Literal["default" | "timer" | "counter"] = Field("default")
+    type: LHabitTypes = Field("default")
     goal_type: int
 
     active_on: List[int]
@@ -26,7 +28,7 @@ class HabitUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
 
-    type: Optional[Literal["default" | "timer" | "counter"]] = None
+    type: Optional[LHabitTypes] = None
     goal_type: Optional[int] = None
 
     active_on: Optional[List[int]] = None

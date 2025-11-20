@@ -13,3 +13,7 @@ class User(Base, BaseMixin):
 
     is_active = Column(Boolean, default=True, nullable=False)
     is_superuser = Column(Boolean, default=False, nullable=False)
+
+    habits = relationship(
+        "Habit", back_populates="author", cascade="all, delete-orphan"
+    )
