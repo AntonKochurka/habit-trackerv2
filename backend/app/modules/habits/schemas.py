@@ -36,12 +36,6 @@ class HabitUpdate(BaseModel):
 class HabitPublic(BaseHabit):
     id: int
 
-    model_config = ConfigDict(from_attributes=True)
-
-
-class HabitInDB(BaseHabit):
-    id: int
-
     created_at: datetime
     updated_at: datetime | None
 

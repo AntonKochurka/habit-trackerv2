@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from . import users, auth, habits, entries, merged
+from . import auth, entries, habits, merged, users
 
 
 def set_router(app: FastAPI):

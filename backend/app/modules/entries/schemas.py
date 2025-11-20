@@ -26,17 +26,11 @@ class HabitUpdate(BaseModel):
     entry_metadata: Optional[EntryMetadata] = None
 
 
-class HabitPublic(BaseHabit):
+class HabitPublic(BaseHabitEntry):
     id: int
 
     progress_value: int = Field(default=0)
     completed: bool = Field(default=False)
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class HabitInDB(BaseHabit):
-    id: int
 
     created_at: datetime
     updated_at: datetime | None = None
