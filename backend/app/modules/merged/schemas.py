@@ -6,5 +6,6 @@ from app.modules.entries.schemas import EntryPublic
 
 
 class MergedHabit(HabitPublic):
+    # if the user hasn't touched the habit for today yet, it's None
     entry: Optional[EntryPublic] = None
 

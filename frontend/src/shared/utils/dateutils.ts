@@ -34,3 +34,15 @@ export function isInRange(d: DateInput, start: DateInput, end: DateInput): boole
   const date = toDate(d).getTime();
   return date >= toDate(start).getTime() && date <= toDate(end).getTime();
 }
+
+export function daysInMonth(d: DateInput): number {
+  const dt = toDate(d);
+  
+  const year = dt.getFullYear();
+  const month = dt.getMonth();
+
+  const next_month = new Date(year, month+1, 1);
+  const first_day = new Date(year, month, 1);
+
+  return (next_month.getTime() - first_day.getTime()) / (1000 * 60 * 60 * 24) 
+}
