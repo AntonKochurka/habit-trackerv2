@@ -1,12 +1,10 @@
-import type { JSX } from "react"
+import type { ReactNode } from "react";
 
-export interface ModalRegistryItem {
-    id: string
-    Component: (props: any) => JSX.Element
-}
+export type ModalComponent = (props: any) => ReactNode;
 
-export const modalRegistry: ModalRegistryItem[] = []
+export const modalRegistry: Record<string, ModalComponent> = {};
 
-export const registerModal = (item: ModalRegistryItem) => {
-    modalRegistry.push(item)
-}
+export const registerModal = (id: string, Component: ModalComponent) => {
+    modalRegistry[id] = Component;
+    console.log("[modal] registered:", id);
+};

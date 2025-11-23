@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "./header";
 import { ToastProvider } from "./toast";
+import { ModalRoot } from "@/core/store/modal";
 
 export function Layout() {
     return (
@@ -10,6 +11,7 @@ export function Layout() {
                 <main>
                     <Outlet />
                 </main>
+                <ModalRoot />
             </ToastProvider>
         </div>
     );

@@ -8,6 +8,8 @@ import { router } from '@/core/providers/router';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './core/providers/query';
 
+import "@/shared/modals";
+
 createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <RouterProvider router={router}>

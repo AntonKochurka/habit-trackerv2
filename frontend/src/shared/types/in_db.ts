@@ -9,6 +9,8 @@ export interface UserModel extends BaseModel {
 }
 
 export interface HabitSettings {
+    color: string;
+    icon: string;
 }
 
 export type HabitType = "default" | "counter" | "timer";

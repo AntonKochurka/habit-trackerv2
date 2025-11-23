@@ -11,7 +11,7 @@ export function CalendarGrid({ days, selectedDate, firstDayOfMonth, onSelectDate
     return (
         <>
             <div className="grid grid-cols-7 gap-1 mb-3">
-                {["S", "M", "T", "W", "T", "F", "S"].map((day) => (
+                {["Su", "Mo", "Tu", "We", "Th", "Fr", "St"].map((day) => (
                     <div 
                         key={day} 
                         className="h-8 flex items-center justify-center text-sm font-medium text-gray-500 dark:text-gray-400"

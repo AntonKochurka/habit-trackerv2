@@ -1,48 +1,43 @@
 import { create } from "zustand"
 
+interface ModalData {
+    payload?: any
+    resolver?: (v: any) => void
+    onClose?: () => void
+}
+
 interface ModalState {
-    modals: Record<
-        string,
-        {
-            isVisible: boolean
-            payload?: any
-            resolver?: (data: any) => void
-        }
-    >
+    active: Record<string, ModalData | undefined>
 
     openModal: (id: string, payload?: any) => Promise<any>
-    closeModal: (id: string) => void
+    closeModal: (id: string, result?: any) => void
 }
 
 export const useModalStore = create<ModalState>((set, get) => ({
-    modals: {},
+    active: {},
 
     openModal(id, payload) {
-        return new Promise((resolve) => {
-            const m = get().modals
-            set({
-                modals: {
-                    ...m,
-                    [id]: {
-                        isVisible: true,
-                        payload,
-                        resolver: resolve,
-                    },
-                },
-            })
-        })
+        return new Promise(resolve => {
+            set(state => ({
+                active: {
+                    ...state.active,
+                    [id]: { payload, resolver: resolve }
+                }
+            }));
+        });
     },
 
-    closeModal(id) {
-        const m = get().modals
-        set({
-            modals: {
-                ...m,
-                [id]: {
-                    ...m[id],
-                    isVisible: false,
-                },
-            },
-        })
+
+    closeModal(id, result) {
+        const modal = get().active[id]
+        if (!modal) return
+
+        modal.resolver?.(result)
+        modal.onClose?.()
+
+        const next = { ...get().active }
+        delete next[id]
+
+        set({ active: next })
     },
 }))

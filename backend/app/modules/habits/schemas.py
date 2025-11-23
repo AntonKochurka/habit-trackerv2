@@ -1,3 +1,5 @@
+import re
+
 from datetime import datetime
 from typing import Literal, List, Optional, Dict, Any
 
@@ -8,8 +10,14 @@ LHabitTypes = Literal["default", "timer", "counter"]
 
 
 class HabitSettings(BaseModel):
-    pass
+    color: str 
+    icon: str
 
+    @field_validator("color")
+    def validate_color(cls, color):
+        if not re.match(r'^#[0-9A-Fa-f]{6}$', color):
+            raise ValueError("Color must be a valid hex color code (e.g., #3B82F6)")
+        return v
 
 class BaseHabit(BaseModel):
     title: str = Field(..., min_length=1, max_length=100)
