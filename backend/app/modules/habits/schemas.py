@@ -16,10 +16,10 @@ class BaseHabit(BaseModel):
     description: str = Field("", max_length=500)
 
     type: LHabitTypes = Field("default")
-    goal_type: int = Field(..., ge=1, le=3)
+    goal_value: int = Field(..., ge=1)
 
     active_on: List[int]
-    settings: Dict[str, Any] = Field(default_factory=dict)
+    settings: Dict[str, Any] = Field(default_factory=HabitSettings)
 
     @field_validator("active_on")
     def validate_active_on(cls, days):
@@ -40,7 +40,7 @@ class HabitUpdate(BaseModel):
     description: Optional[str] = Field(None, max_length=500)
 
     type: Optional[LHabitTypes] = None
-    goal_type: Optional[int] = Field(None, ge=1, le=3)
+    goal_value: Optional[int] = None
 
     active_on: Optional[List[int]] = None
     settings: Optional[Dict[str, Any]] = None

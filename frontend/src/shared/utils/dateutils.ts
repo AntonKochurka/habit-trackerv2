@@ -13,36 +13,3 @@ export function toDate(d: DateInput): Date {
 export function normalizeDate(d: DateInput): Date {
   return toDate(d);
 }
-
-export function dayOfWeek(d: DateInput): number {
-  const day = toDate(d).getDay();
-  return day === 0 ? 7 : day;
-}
-
-export function daysBetween(d1: DateInput, d2: DateInput): number {
-  const delta = Math.abs(toDate(d2).getTime() - toDate(d1).getTime());
-  return Math.floor(delta / (1000 * 60 * 60 * 24));
-}
-
-export function isSameDay(d1: DateInput, d2: DateInput): boolean {
-  const date1 = toDate(d1);
-  const date2 = toDate(d2);
-  return date1.getTime() === date2.getTime();
-}
-
-export function isInRange(d: DateInput, start: DateInput, end: DateInput): boolean {
-  const date = toDate(d).getTime();
-  return date >= toDate(start).getTime() && date <= toDate(end).getTime();
-}
-
-export function daysInMonth(d: DateInput): number {
-  const dt = toDate(d);
-  
-  const year = dt.getFullYear();
-  const month = dt.getMonth();
-
-  const next_month = new Date(year, month+1, 1);
-  const first_day = new Date(year, month, 1);
-
-  return (next_month.getTime() - first_day.getTime()) / (1000 * 60 * 60 * 24) 
-}
